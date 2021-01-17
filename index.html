@@ -41,16 +41,24 @@ https://github.com/Team-Code/KA_Offline -->
 		var tntMovingUp = true;
 		var tntExplosionSequence = false;
 		var explosionSegmentLength;
-		var explosionDegree;
-		var explosionSegmentLengths;
-		var explosionSegmentAngles;
+		var explosionDegree = 0;
+		var explosionSegmentAngles = [0];
+		var explosionSegmentLengths = [0];
 		var wickBurnt = 0;
 		var leftStick = [15, -11, 0, 30, -10, -10, 0, -10, -10, -10, -10, 30, 10, -10, 10, 30, -10, 15];
 		var middleStick = [35, -11, 20, 30, 10, -10, 20, -10, 10, -10, 10, 30, 30, -10, 30, 30, 10, 15];
 		var rightStick = [25, -6, 10, 35, 0, -5, 10, -5, 0, -5, 0, 35, 20, -5, 20, 35, 0, 20];
 		var tntOffsets = [leftStick, middleStick, rightStick];
+		var explosionStartSize = 30;
+		var explosionSize = 0;
+		var dynamiteRevealSpeed = 1.5;
+
+        var testVar = [];
+        testVar.push("n");
+		testVar.push("m");
+		console.log(testVar);
 		
-		function ifRadians (input) {
+		function ifRadians(input) {
 			if (usingRadians) {
 			return (radians(input));
 			} else {
@@ -58,24 +66,57 @@ https://github.com/Team-Code/KA_Offline -->
 			}
 		}
 
-		function explosion() {
+		function explosion(size) {
 			while (explosionDegree<360) {
-				if (360-explosionDegree>40) {
-
+				while (360 - explosionDegree > 40) {
+					explosionDegree += 10 + 10 * Math.random();
+					explosionSegmentAngles.push(explosionDegree);
+					explosionSegmentLengths.push(Math.random() * size * (explosionSegmentAngles.length % 2));
 				}
+				explosionDegree += (360 - explosionDegree) / 2;
+				explosionSegmentAngles.push(explosionDegree);
+                explosionSegmentLengths.push(Math.random() * size * (explosionSegmentAngles.length % 2));
 			}
+
 			//check if 360-explosionDegree > x
-			//if it is, randomize explosion degrees, save to list(dictionary?)
+			//if it is, randomize explosion degrees, save to list (dictionary?)
 				//randomize explosionSegment length, save to list (dictionary?)
 				//add counter to alternate long and short arms?
 				//calculate coords based on angle and length
+                    /*strokeWeight(1);
+                    stroke(255, 128, 0);
+                    var wickAngle = radians(fuseLength - wickBurnt);
+                    var fuseRadius = 15;
+                    var XOffset = cos(wickAngle) * fuseRadius;
+                    var YOffset = sin(wickAngle) * fuseRadius;*/
 			//draw explosion
 			//add second layer?
 			//fill
 
 		}
 
-		function dynamite(explode) {
+		function drawSparks(whichStick) {
+            //calculate sparks' relative positions
+            strokeWeight(1);
+            stroke(255, 128, 0);
+            var wickAngle = radians(fuseLength - wickBurnt);
+            var fuseRadius = 15;
+            var XOffset = cos(wickAngle) * fuseRadius;
+            var YOffset = sin(wickAngle) * fuseRadius;
+            //draw sparks
+            for (var j = 0; j < 18; j++) {
+                var sparkArmDegree = j * 20;
+                var armLength = 2 + Math.random() * 7;
+                var XEndPlane = cos(sparkArmDegree) * armLength;
+                var YEndPlane = sin(sparkArmDegree) * armLength;
+                line(tntPos[0] + tntOffsets[whichStick][0] - XOffset, tntPos[1] + tntOffsets[whichStick][1] - YOffset, tntPos[0] + tntOffsets[whichStick][0] - XEndPlane - XOffset, tntPos[1] + tntOffsets[whichStick][1] - YEndPlane - YOffset);
+            }
+		}
+
+        function dynamite(exploding) {
+            if (wickBurnt <= 90 && exploding) {
+                wickBurnt++;
+            }
 			for (var tnt = 0; tnt < 3; tnt++) {
                 //the code that draws an actual stick of tnt
 				fill(255, 0, 0);
@@ -101,20 +142,8 @@ https://github.com/Team-Code/KA_Offline -->
 				stroke(82, 82, 82);
 				arc(tntPos[0] + tntOffsets[tnt][0], tntPos[1] + tntOffsets[tnt][1], 30, 30, fuseStart, fuseStart + ifRadians(fuseLength - wickBurnt));
 
-				//calculate sparks' relative positions
-				strokeWeight(1);
-				stroke(255, 128, 0);
-				var wickAngle = radians(fuseLength - wickBurnt);
-				var fuseRadius = 15;
-				var XOffset = cos(wickAngle) * fuseRadius;
-				var YOffset = sin(wickAngle) * fuseRadius;
-                //draw sparks
-				for (var j = 0; j < 18; j++) {
-					var sparkArmDegree = j * 20;
-					var armLength = 2 + Math.random() * 7;
-					var XEndPlane = cos(sparkArmDegree) * armLength;
-					var YEndPlane = sin(sparkArmDegree) * armLength;
-					line(tntPos[0] + tntOffsets[tnt][0] - XOffset, tntPos[1] + tntOffsets[tnt][1] - YOffset, tntPos[0] + tntOffsets[tnt][0] - XEndPlane - XOffset, tntPos[1] + tntOffsets[tnt][1] - YEndPlane - YOffset);
+				if (exploding && wickBurnt <= 90) {
+					drawSparks(tnt);
 				}
 			}
 		}
@@ -152,7 +181,7 @@ https://github.com/Team-Code/KA_Offline -->
 			//dynamite animation code - inside of box
 			if (tntMovingUp === true && frameCount > 75 && frameCount < 275) {
 				dynamite();
-				tntPos[1]--;
+                tntPos[1] -= dynamiteRevealSpeed;
 			}
 
 			//the box
@@ -196,10 +225,11 @@ https://github.com/Team-Code/KA_Offline -->
 
 			if (tntExplosionSequence === true) {
 				dynamite(tntExplosionSequence);
-				if (wickBurnt <= 90) {
-					wickBurnt++;
-				}
 			}
+			if (wickBurnt > 90) {
+                explosionSize += dynamiteRevealSpeed;
+				explosion(explosionSize + explosionStartSize);
+            }
 		};
 	}};
 
