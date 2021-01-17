@@ -66,9 +66,9 @@ https://github.com/Team-Code/KA_Offline -->
 			}
 			//check if 360-explosionDegree > x
 			//if it is, randomize explosion degrees, save to list(dictionary?)
-			   //randomize explosionSegment length, save to list (dictionary?)
-			   //add counter to alternate long and short arms?
-			   //calculate coords based on angle and length
+				//randomize explosionSegment length, save to list (dictionary?)
+				//add counter to alternate long and short arms?
+				//calculate coords based on angle and length
 			//draw explosion
 			//add second layer?
 			//fill
@@ -198,17 +198,17 @@ https://github.com/Team-Code/KA_Offline -->
 			strokeWeight(10);
 			openness = 3*(frameCount-boxOpenAnimationStart);
 			if (openness > lidMaxHeight) {
-			   openness = lidMaxHeight;
+				openness = lidMaxHeight;
 			}
 			if (frameCount > boxOpenAnimationStart) {
-			   quad(160, 150, 240, 150, 245, 150-openness, 155, 150-openness);
-			   line (155, 150-openness, 240, 150);
+				quad(160, 150, 240, 150, 245, 150-openness, 155, 150-openness);
+				line (155, 150-openness, 240, 150);
 			}
 
 			//dynamite animation code - inside of box
 			if (tntMovingUp === true && frameCount > 75 && frameCount < 275) {
-			   dynamite();
-			   tntPos[1]--;
+				dynamite();
+				tntPos[1]--;
 			}
 
 			//the box
@@ -222,39 +222,39 @@ https://github.com/Team-Code/KA_Offline -->
 
 			//unused box animation code - interactive version
 			/*if (boxState === 1) {
-			   quad(150, 150, 250, 150, 250, 150-100, 150, 150-100);
-			   if (frameCount - boxAnimationStart === 100) {
-				  boxState = 3;
-			   }
+				quad(150, 150, 250, 150, 250, 150-100, 150, 150-100);
+				if (frameCount - boxAnimationStart === 100) {
+					boxState = 3;
+				}
 			}
 			if (mouseDown && mouseOnBoxCheck && (boxState = 0)) {
-			   boxState = 1;
-			   // 0 = closed, 1 = opening, 2 = open, 3 = closing
-			   boxAnimationStart = frameCount;
+				boxState = 1;
+				// 0 = closed, 1 = opening, 2 = open, 3 = closing
+				boxAnimationStart = frameCount;
 			} else if (mouseDown && mouseOnBoxCheck && (boxState = 3)) {
-			   boxState = 4;
-			   // 0 = closed, 1 = opening, 2 = open, 3 = closing
-			   boxAnimationStart = frameCount;
+				boxState = 4;
+				// 0 = closed, 1 = opening, 2 = open, 3 = closing
+				boxAnimationStart = frameCount;
 			}*/
 
 			//dynamite animation code - outside of box
 			if (tntPos[1] < 100 && tntMovingUp === true) {
-			   tntMovingUp = false;
+				tntMovingUp = false;
 			}
 			if (tntPos[1] > 250 && tntMovingUp === false) {
-			   tntMovingUp = true;
-			   tntExplosionSequence = true;
+				tntMovingUp = true;
+				tntExplosionSequence = true;
 			}
 			if (tntMovingUp === false) {
-			   dynamite();
-			   tntPos[1]++;
+				dynamite();
+				tntPos[1]++;
 			}
 
 			if (tntExplosionSequence === true) {
-			   dynamite(tntExplosionSequence);
-			   if (wickBurnt <= 90) {
-				  wickBurnt++;
-			   }
+				dynamite(tntExplosionSequence);
+				if (wickBurnt <= 90) {
+					wickBurnt++;
+				}
 			}
 		};
 	}};
