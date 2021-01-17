@@ -45,10 +45,10 @@ https://github.com/Team-Code/KA_Offline -->
 		var explosionSegmentLengths;
 		var explosionSegmentAngles;
 		var wickBurnt = 0;
-		var leftStick = [15, -11];
-		var middleStick = [25, -6];
-		var rightStick = [35, -11];
-		var tntOffsets = [leftStick, middleStick, rightStick];
+        var leftStick = [15, -11, 0, 30, -10, -10, 0, -10, -10, -10, -10, 30, 10, -10, 10, 30, -10, 15];
+        var middleStick = [35, -11, 20, 30, 10, -10, 20, -10, 10, -10, 10, 30, 30, -10, 30, 30, 10, 15];
+        var rightStick = [25, -6, 10, 35, 0, -5, 10, -5, 0, -5, 0, 35, 20, -5, 20, 35, 0, 20];
+        var tntOffsets = [leftStick, middleStick, rightStick];
 		
 		function ifRadians (input) {
 			if (usingRadians) {
@@ -76,103 +76,48 @@ https://github.com/Team-Code/KA_Offline -->
 		}
 
 		function dynamite(explode) {
-			text ("exploding: " + explode, 10, 360);
+			text("exploding: " + explode, 10, 360);
 
-			fill (255, 0, 0);
-			noStroke();
-			stroke (158, 0, 0);
-			strokeWeight (2);
-			ellipse (tntPos[0], tntPos[1]-10+40, 20, 7);
-			noStroke ();
-			rect (tntPos[0]-10, tntPos[1]-10, 20, 40);
-			stroke (158, 0, 0);
-			strokeWeight (1.5);
-			ellipse (tntPos[0], tntPos[1]-10, 20, 5);
-			line(tntPos[0]-10, tntPos[1]-10, tntPos[0]-10, tntPos[1]+30);
-			line(tntPos[0]+10, tntPos[1]-10, tntPos[0]+10, tntPos[1]+30);
-			noStroke ();
-			fill (0, 0, 0);
-			textSize (10);
-			text ("TNT", tntPos[0]-10, tntPos[1]+15);
-			noFill();
-			stroke (166, 166, 166);
-			strokeWeight (3);
-			arc (tntPos[0]+tntOffsets[0][0], tntPos[1]+tntOffsets[0][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength));
-			stroke (82, 82, 82);
-			arc (tntPos[0]+tntOffsets[0][0], tntPos[1]+tntOffsets[0][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength-wickBurnt));
+			for (var tnt = 0; tnt < 3; tnt++) {
+                fill(255, 0, 0);
+                noStroke();
+                stroke(158, 0, 0);
+                strokeWeight(2);
+                ellipse(tntPos[0] + tntOffsets[tnt][2], tntPos[1] + tntOffsets[tnt][3], 20, 7);
+                noStroke();
+                rect(tntPos[0] + tntOffsets[tnt][4], tntPos[1] + tntOffsets[tnt][5], 20, 40);
+                stroke(158, 0, 0);
+                strokeWeight(1.5);
+                ellipse(tntPos[0] + tntOffsets[tnt][6], tntPos[1] + tntOffsets[tnt][7], 20, 5);
+                line(tntPos[0] + tntOffsets[tnt][8], tntPos[1] + tntOffsets[tnt][9], tntPos[0] + tntOffsets[tnt][10], tntPos[1] + tntOffsets[tnt][11]);
+                line(tntPos[0] + tntOffsets[tnt][12], tntPos[1] + tntOffsets[tnt][13], tntPos[0] + tntOffsets[tnt][14], tntPos[1] + tntOffsets[tnt][15]);
+                noStroke();
+                fill(0, 0, 0);
+                textSize(10);
+                text("TNT", tntPos[0] + tntOffsets[tnt][16], tntPos[1] + tntOffsets[tnt][17]);
+                noFill();
+                stroke(166, 166, 166);
+                strokeWeight(3);
+                arc(tntPos[0] + tntOffsets[tnt][0], tntPos[1] + tntOffsets[tnt][1], 30, 30, fuseStart, fuseStart + ifRadians(fuseLength));
+                stroke(82, 82, 82);
+				arc(tntPos[0] + tntOffsets[tnt][0], tntPos[1] + tntOffsets[tnt][1], 30, 30, fuseStart, fuseStart + ifRadians(fuseLength - wickBurnt));
 
-			fill (255, 0, 0);
-			noStroke();
-			stroke (158, 0, 0);
-			strokeWeight (2);
-			ellipse (tntPos[0]+20, tntPos[1]+30, 20, 7);
-			noStroke ();
-			rect (tntPos[0]+10, tntPos[1]-10, 20, 40);
-			stroke (158, 0, 0);
-			strokeWeight (1.5);
-			ellipse (tntPos[0]+20, tntPos[1]-10, 20, 5);
-			line(tntPos[0]+10, tntPos[1]-10, tntPos[0]+10, tntPos[1]+30);
-			line(tntPos[0]+30, tntPos[1]-10, tntPos[0]+30, tntPos[1]+30);
-			noStroke ();
-			fill (0, 0, 0);
-			textSize (10);
-			text ("TNT", tntPos[0]+10, tntPos[1]+15);
-			noFill();
-			stroke (166, 166, 166);
-			strokeWeight (3);
-			arc (tntPos[0]+tntOffsets[2][0], tntPos[1]+tntOffsets[2][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength));
-			stroke (82, 82, 82);
-			arc (tntPos[0]+tntOffsets[2][0], tntPos[1]+tntOffsets[2][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength-wickBurnt));
-
-			fill (255, 0, 0);
-			noStroke();
-			stroke (158, 0, 0);
-			strokeWeight (2);
-			ellipse (tntPos[0]+10, tntPos[1]+35, 20, 7);
-			noStroke ();
-			rect (tntPos[0], tntPos[1]-5, 20, 40);
-			stroke (158, 0, 0);
-			strokeWeight (1.5);
-			ellipse (tntPos[0]+10, tntPos[1]-5, 20, 5);
-			line(tntPos[0], tntPos[1]-5, tntPos[0], tntPos[1]+35);
-			line(tntPos[0]+20, tntPos[1]-5, tntPos[0]+20, tntPos[1]+35);
-			noStroke ();
-			fill (0, 0, 0);
-			textSize (10);
-			text ("TNT", tntPos[0], tntPos[1]+20);
-			noFill();
-			stroke (166, 166, 166);
-			strokeWeight (3);
-			arc (tntPos[0]+tntOffsets[1][0], tntPos[1]+tntOffsets[1][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength));
-			stroke (82, 82, 82);
-			arc (tntPos[0]+tntOffsets[1][0], tntPos[1]+tntOffsets[1][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength-wickBurnt));
-			
-			//draw sparks
-			strokeWeight (1);
-			stroke(255, 128, 0);
-			/*for (var i = 0; i < 18; i++) {
-				var sparkArmDegree = i * 20;
-				var armLength = 5 + Math.random()*5;
-				var Xoffset = cos(sparkArmDegree)*10;
-				var Yoffset = sin(sparkArmDegree)*10;
-				ellipse (tntPos[0]+25-Xoffset, tntPos[1]-6-Yoffset, 5, 5);
-			}*/
-			for (var i = 0; i < 3; i++) {
-				//console.log("stick: "+i);
-				var wickAngle = radians(fuseLength-wickBurnt);
-				var fuseRadius = 15;
-				var XOffset = cos(wickAngle)*fuseRadius;
-				var YOffset = sin(wickAngle)*fuseRadius;
-				//ellipse (tntPos[0]+tntOffsets[i][0]-XOffset, tntPos[1]+tntOffsets[i][1]-YOffset, 5, 5);
-				for (var j = 0; j < 18; j++) {
-					var sparkArmDegree = j * 20;
-					var armLength = 2 + Math.random()*7;
-					var XEndPlane = cos(sparkArmDegree)*armLength;
-					var YEndPlane = sin(sparkArmDegree)*armLength;
-					//ellipse (tntPos[0]+tntOffsets[i][0]-XEndPlane-XOffset, tntPos[1]+tntOffsets[i][1]-YEndPlane-YOffset, 5, 5);
-					line (tntPos[0]+tntOffsets[i][0]-XOffset, tntPos[1]+tntOffsets[i][1]-YOffset, tntPos[0]+tntOffsets[i][0]-XEndPlane-XOffset, tntPos[1]+tntOffsets[i][1]-YEndPlane-YOffset);
-				}
-			}
+                //calculate sparks' relative positions, draw sparks
+                strokeWeight(1);
+                stroke(255, 128, 0);
+                var wickAngle = radians(fuseLength - wickBurnt);
+                var fuseRadius = 15;
+                var XOffset = cos(wickAngle) * fuseRadius;
+                var YOffset = sin(wickAngle) * fuseRadius;
+                for (var j = 0; j < 18; j++) {
+                    var sparkArmDegree = j * 20;
+                    var armLength = 2 + Math.random() * 7;
+                    var XEndPlane = cos(sparkArmDegree) * armLength;
+                    var YEndPlane = sin(sparkArmDegree) * armLength;
+                    //ellipse (tntPos[0]+tntOffsets[i][0]-XEndPlane-XOffset, tntPos[1]+tntOffsets[i][1]-YEndPlane-YOffset, 5, 5);
+                    line(tntPos[0] + tntOffsets[tnt][0] - XOffset, tntPos[1] + tntOffsets[tnt][1] - YOffset, tntPos[0] + tntOffsets[tnt][0] - XEndPlane - XOffset, tntPos[1] + tntOffsets[tnt][1] - YEndPlane - YOffset);
+                }
+            }
 		}
 
 		function calcWickBurnt () {
