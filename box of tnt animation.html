@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html>
+<head>
+	<title>Processing.JS inside Webpages: Template</title> 
+</head>
+<body>
+	<p align="center">
+		<!--This draws the Canvas on the webpage -->
+		<canvas id="mycanvas"></canvas> 
+	</p>
+</body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+<script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+<script>
+	var sketchProc = function(processingInstance) {
+	with (processingInstance) {
+		size(400, 400);
+		frameRate(30);
+		var usingRadians = true;
+		if (radians) {
+		
+		} else {
+		
+		}
+		var fuseStart = 180;
+		fuseStart = ifRadians(fuseStart);
+		var boxState = 0;
+		var boxAnimationStart;
+		var mouseDown;
+		var openness = 0;
+		var boxOpenAnimationStart = 30;
+		var lidMaxHeight = 87;
+		var tntPos = [190, 200];
+		const fuseLength = 90;
+		var tntMovingUp = true;
+		var tntExplosionSequence = false;
+		var explosionSegmentLength;
+		var explosionDegree;
+		var explosionSegmentLengths;
+		var explosionSegmentAngles;
+		var wickBurnt = 0;
+		var leftStick = [15, -11];
+		var middleStick = [25, -6];
+		var rightStick = [35, -11];
+		var tntOffsets = [leftStick, middleStick, rightStick];
+		
+		function ifRadians (input) {
+			if (usingRadians) {
+			return (radians(input));
+			} else {
+			return input;
+			}
+		}
+
+		function explosion() {
+			while (explosionDegree<360) {
+				if (360-explosionDegree>40) {
+
+				}
+			}
+		    //check if 360-explosionDegree > x
+		    //if it is, randomize explosion degrees, save to list(dictionary?)
+			   //randomize explosionSegment length, save to list (dictionary?)
+			   //add counter to alternate long and short arms?
+			   //calculate coords based on angle and length
+		    //draw explosion
+		    //add second layer?
+		    //fill
+
+		}
+
+		function dynamite(explode) {
+			text ("exploding: " + explode, 10, 360);
+
+			fill (255, 0, 0);
+			noStroke();
+			stroke (158, 0, 0);
+			strokeWeight (2);
+			ellipse (tntPos[0], tntPos[1]-10+40, 20, 7);
+			noStroke ();
+			rect (tntPos[0]-10, tntPos[1]-10, 20, 40);
+			stroke (158, 0, 0);
+			strokeWeight (1.5);
+			ellipse (tntPos[0], tntPos[1]-10, 20, 5);
+			line(tntPos[0]-10, tntPos[1]-10, tntPos[0]-10, tntPos[1]+30);
+			line(tntPos[0]+10, tntPos[1]-10, tntPos[0]+10, tntPos[1]+30);
+			noStroke ();
+			fill (0, 0, 0);
+			textSize (10);
+			text ("TNT", tntPos[0]-10, tntPos[1]+15);
+			noFill();
+			stroke (166, 166, 166);
+			strokeWeight (3);
+			arc (tntPos[0]+tntOffsets[0][0], tntPos[1]+tntOffsets[0][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength));
+			stroke (82, 82, 82);
+			arc (tntPos[0]+tntOffsets[0][0], tntPos[1]+tntOffsets[0][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength-wickBurnt));
+
+			fill (255, 0, 0);
+			noStroke();
+			stroke (158, 0, 0);
+			strokeWeight (2);
+			ellipse (tntPos[0]+20, tntPos[1]+30, 20, 7);
+			noStroke ();
+			rect (tntPos[0]+10, tntPos[1]-10, 20, 40);
+			stroke (158, 0, 0);
+			strokeWeight (1.5);
+			ellipse (tntPos[0]+20, tntPos[1]-10, 20, 5);
+			line(tntPos[0]+10, tntPos[1]-10, tntPos[0]+10, tntPos[1]+30);
+			line(tntPos[0]+30, tntPos[1]-10, tntPos[0]+30, tntPos[1]+30);
+			noStroke ();
+			fill (0, 0, 0);
+			textSize (10);
+			text ("TNT", tntPos[0]+10, tntPos[1]+15);
+		    noFill();
+		    stroke (166, 166, 166);
+		    strokeWeight (3);
+		    arc (tntPos[0]+tntOffsets[2][0], tntPos[1]+tntOffsets[2][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength));
+		    stroke (82, 82, 82);
+		    arc (tntPos[0]+tntOffsets[2][0], tntPos[1]+tntOffsets[2][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength-wickBurnt));
+
+		    fill (255, 0, 0);
+		    noStroke();
+		    stroke (158, 0, 0);
+		    strokeWeight (2);
+		    ellipse (tntPos[0]+10, tntPos[1]+35, 20, 7);
+		    noStroke ();
+		    rect (tntPos[0], tntPos[1]-5, 20, 40);
+		    stroke (158, 0, 0);
+		    strokeWeight (1.5);
+		    ellipse (tntPos[0]+10, tntPos[1]-5, 20, 5);
+		    line(tntPos[0], tntPos[1]-5, tntPos[0], tntPos[1]+35);
+		    line(tntPos[0]+20, tntPos[1]-5, tntPos[0]+20, tntPos[1]+35);
+		    noStroke ();
+		    fill (0, 0, 0);
+		    textSize (10);
+		    text ("TNT", tntPos[0], tntPos[1]+20);
+		    noFill();
+		    stroke (166, 166, 166);
+		    strokeWeight (3);
+		    arc (tntPos[0]+tntOffsets[1][0], tntPos[1]+tntOffsets[1][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength));
+		    stroke (82, 82, 82);
+		    arc (tntPos[0]+tntOffsets[1][0], tntPos[1]+tntOffsets[1][1], 30, 30, fuseStart, fuseStart+ifRadians(fuseLength-wickBurnt));
+		    
+			//draw sparks
+			strokeWeight (1);
+			stroke(255, 128, 0);
+			/*for (var i = 0; i < 18; i++) {
+				var sparkArmDegree = i * 20;
+				var armLength = 5 + Math.random()*5;
+				var Xoffset = cos(sparkArmDegree)*10;
+				var Yoffset = sin(sparkArmDegree)*10;
+				ellipse (tntPos[0]+25-Xoffset, tntPos[1]-6-Yoffset, 5, 5);
+			}*/
+			for (var i = 0; i < 3; i++) {
+				//console.log("stick: "+i);
+				var wickAngle = radians(fuseLength-wickBurnt);
+				var fuseRadius = 15;
+				var XOffset = cos(wickAngle)*fuseRadius;
+				var YOffset = sin(wickAngle)*fuseRadius;
+				//ellipse (tntPos[0]+tntOffsets[i][0]-XOffset, tntPos[1]+tntOffsets[i][1]-YOffset, 5, 5);
+				for (var j = 0; j < 18; j++) {
+					var sparkArmDegree = j * 20;
+					var armLength = 2 + Math.random()*7;
+					var XEndPlane = cos(sparkArmDegree)*armLength;
+					var YEndPlane = sin(sparkArmDegree)*armLength;
+					//ellipse (tntPos[0]+tntOffsets[i][0]-XEndPlane-XOffset, tntPos[1]+tntOffsets[i][1]-YEndPlane-YOffset, 5, 5);
+					line (tntPos[0]+tntOffsets[i][0]-XOffset, tntPos[1]+tntOffsets[i][1]-YOffset, tntPos[0]+tntOffsets[i][0]-XEndPlane-XOffset, tntPos[1]+tntOffsets[i][1]-YEndPlane-YOffset);
+				}
+			}
+		}
+
+		function calcWickBurnt () {
+
+		}
+
+		draw = function() {
+		    background(255, 255, 255);
+		    strokeWeight(10);
+		    stroke (0, 0, 0);
+		    fill(255, 0, 0);
+
+		    textSize(30);
+		    textAlign(CENTER);
+		    text("TNT, BY THE BOX", 50, 20, 300, 50);
+
+		    // debug
+		    textAlign(LEFT);
+		    text ("frame: " + frameCount, 10, 390);
+
+		    // box animations
+		    fill(71, 25, 0);
+		    strokeWeight(10);
+		    openness = 3*(frameCount-boxOpenAnimationStart);
+		    if (openness > lidMaxHeight) {
+			   openness = lidMaxHeight;
+		    }
+		    if (frameCount > boxOpenAnimationStart) {
+			   quad(160, 150, 240, 150, 245, 150-openness, 155, 150-openness);
+			   line (155, 150-openness, 240, 150);
+		    }
+
+		    //dynamite animation code - inside of box
+		    if (tntMovingUp === true && frameCount > 75 && frameCount < 275) {
+			   dynamite();
+			   tntPos[1]--;
+		    }
+
+		    //the box
+		    fill(71, 25, 0);
+		    strokeWeight(10);
+		    stroke (0, 0, 0);
+		    fill(71, 25, 0);
+		    textSize(30);
+		    rect(150, 150, 100, 100);
+		    line(150, 150, 250, 250);
+
+		    //unused box animation code - interactive version
+		    /*if (boxState === 1) {
+			   quad(150, 150, 250, 150, 250, 150-100, 150, 150-100);
+			   if (frameCount - boxAnimationStart === 100) {
+				  boxState = 3;
+			   }
+		    }
+		    if (mouseDown && mouseOnBoxCheck && (boxState = 0)) {
+			   boxState = 1;
+			   // 0 = closed, 1 = opening, 2 = open, 3 = closing
+			   boxAnimationStart = frameCount;
+		    } else if (mouseDown && mouseOnBoxCheck && (boxState = 3)) {
+			   boxState = 4;
+			   // 0 = closed, 1 = opening, 2 = open, 3 = closing
+			   boxAnimationStart = frameCount;
+		    }*/
+
+		    //dynamite animation code - outside of box
+		    if (tntPos[1] < 100 && tntMovingUp === true) {
+			   tntMovingUp = false;
+		    }
+		    if (tntPos[1] > 250 && tntMovingUp === false) {
+			   tntMovingUp = true;
+			   tntExplosionSequence = true;
+		    }
+		    if (tntMovingUp === false) {
+			   dynamite();
+			   tntPos[1]++;
+		    }
+
+		    if (tntExplosionSequence === true) {
+			   dynamite(tntExplosionSequence);
+			   if (wickBurnt <= 90) {
+				  wickBurnt++;
+			   }
+		    }
+		};
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas"); 
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>
