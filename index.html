@@ -51,15 +51,8 @@ https://github.com/Team-Code/KA_Offline -->
 		var tntOffsets = [leftStick, middleStick, rightStick];
 		var explosionStartSize = 30;
 		var explosionSize = 0;
-		var dynamiteRevealSpeed = 1.5;
-
-        var testVar = [];
-		testVar.push("n");
-		for (var i = 0; i < 5; i++) {
-            var i = "s"
-        }
-		testVar.push("m");
-		console.log(testVar);
+		var dynamiteRevealSpeed = 2;
+		var currentPoint = [];
 		
 		function ifRadians(input) {
 			if (usingRadians) {
@@ -68,6 +61,13 @@ https://github.com/Team-Code/KA_Offline -->
 			return input;
 			}
 		}
+
+		function findPoint(legAngle, legLength) {
+            var XPoint = cos(legAngle) * legLength;
+			var YPoint = sin(legAngle) * legLength;
+			var pointCoords = [XPoint, YPoint];
+			return pointCoords;
+        }
 
 		function explosion(size) {
 			while (explosionDegree<360) {
@@ -80,6 +80,13 @@ https://github.com/Team-Code/KA_Offline -->
 				explosionSegmentAngles.push(explosionDegree);
                 explosionSegmentLengths.push(Math.random() * size * (explosionSegmentAngles.length % 2));
 			}
+
+			beginShape();
+			for (var i = 0; i < explosionSegmentAngles.length; i++) {
+				currentPoint = findPoint(explosionSegmentAngles[i], explosionSegmentLengths[i]);
+                vertex(currentPoint[0][0], currentPoint[0][1])
+            }
+			endShape(CLOSE);
 
 			//check if 360-explosionDegree > x
 			//if it is, randomize explosion degrees, save to list (dictionary?)
@@ -102,10 +109,10 @@ https://github.com/Team-Code/KA_Offline -->
             //calculate sparks' relative positions
             strokeWeight(1);
             stroke(255, 128, 0);
-            var wickAngle = radians(fuseLength - wickBurnt);
+            var fuseAngle = radians(fuseLength - wickBurnt);
             var fuseRadius = 15;
-            var XOffset = cos(wickAngle) * fuseRadius;
-            var YOffset = sin(wickAngle) * fuseRadius;
+            var XOffset = cos(fuseAngle) * fuseRadius;
+            var YOffset = sin(fuseAngle) * fuseRadius;
             //draw sparks
             for (var j = 0; j < 18; j++) {
                 var sparkArmDegree = j * 20;
